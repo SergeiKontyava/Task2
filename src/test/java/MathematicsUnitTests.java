@@ -1,95 +1,68 @@
-import static org.junit.Assert.assertEquals;
 import org.junit.*;
 import org.junit.experimental.categories.Category;
 import org.junit.rules.ExpectedException;
 import org.junit.rules.Timeout;
-import org.junit.runners.MethodSorters;
 import java.util.concurrent.TimeUnit;
+import static org.junit.Assert.assertEquals;
+import org.junit.runners.MethodSorters;
 
 @FixMethodOrder(NAME_ASCENDING(MethodSorter.NAME_ASCENDING))
 @Category(SlowTests.class)
 public class MathematicsUnitTests {
 
+    private Mathematics TestClass = new Mathematics();
     @Rule
     public Timeout globalTimeout = new Timeout(10000);
     @Rule
     public final ExpectedException exception = ExpectedException.none();
 
-    @BeforeClass
-    public static void classInitialize() {
-        Mathematics testClass = new Mathematics();
-        testClass.setResult(0);
-    }
-
     @Before
     public void initialize(){
-        Mathematics testClass = new Mathematics();
-        testClass.setResult(0);
+        TestClass = new Mathematics();
+        TestClass.setResult(0);
+        System.out.println();
     }
 
     @Test
     @Category(FastTests.class)
     public void addMethod(){
-        Mathematics testClass = new Mathematics();
-
-        testClass.setResult(0);
-        testClass.add(1, 6);
-        assertEquals("1 + 6 Should be 7", 7, testClass.getResult());
-
-        testClass.setResult(0);
-        testClass.add(1, -5);
-        assertEquals("1 + (-5) Should be -4", -4, testClass.getResult());
+        TestClass.setResult(0);
+        TestClass.add(1, -5);
+        String message =  String.format("%d + (%d) Should be %d", 1,-5,4);
+        assertEquals(message, -4, TestClass.getResult());
     }
 
     @Test
-
     public void mupltiplyByOneShouldReturnValue(){
-        Mathematics testClass = new Mathematics();
-
-        testClass.setResult(0);
-        testClass.multiply(5, 1);
-        assertEquals("5 * 1 should be 5", 5, testClass.getResult());
-
-        testClass.setResult(0);
-        testClass.multiply(-5, 1);
-        assertEquals("-5 * 1 should be -5", -5, testClass.getResult());
+        TestClass.multiply(-5, 1);
+        String message =  String.format("%d + (%d) Should be %d", -5, 1,-5);
+        assertEquals(message, -5, TestClass.getResult());
     }
 
     @Test
     public void divisionByTwoShouldDivideValueOnEqualParts(){
-        Mathematics testClass = new Mathematics();
-
-        testClass.setResult(0);
-        testClass.divide(6, 2);
-        assertEquals("6 / 2 should be 3", 3, testClass.getResult());
+        TestClass.divide(6, 2);
+        String message =  String.format("%d + (%d) Should be %d", 6, 2, 3);
+        assertEquals(message, 3, TestClass.getResult());
     }
 
     @Test
     public void subtractOneFromValueShouldDecreaseValueByOne(){
-        Mathematics testClass = new Mathematics();
-
-        testClass.setResult(1);
-        testClass.deduct(5, 1);
-
-        assertEquals("5 - 1 should be 4", 4, testClass.getResult());
+        TestClass.setResult(1);
+        TestClass.deduct(5, 1);
+        String message =  String.format("%d + (%d) Should be %d", 5, 1, 4);
+        assertEquals(message, 4, TestClass.getResult());
     }
 
     @Test(expected = ArithmeticException.class)
     public void divisionByZeroShouldBeException(){
-        Mathematics testClass = new Mathematics();
-        testClass.setResult(0);
-
-        testClass.divide(1, 0);
+        TestClass.divide(1, 0);
     }
 
     @Test(timeout = 10000)
     public void testWithTimeoutShouldFail() throws Exception {
-        Mathematics testClass = new Mathematics();
-        testClass.setResult(0);
-
-        testClass.divide(1,1);
+        TestClass.divide(1,1);
         TimeUnit.SECONDS.sleep(11);
-
         exception.expect(Exception.class);
     }
 
